@@ -32,6 +32,13 @@ def listar_alumnos(data):
     return list
 
 
+def listar_servidores(data):
+    list = []
+    for d in data.get('servidores', []):
+        list.append(d)
+    return list
+
+
 if __name__ == "__main__":
     for servidor in leer_yaml("./datos.yaml").get('servidores', []):
         print(servidor['nombre'])
