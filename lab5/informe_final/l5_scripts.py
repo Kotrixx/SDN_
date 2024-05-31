@@ -3,7 +3,6 @@ from lab5.informe_previo.leer_yaml import leer_yaml, listar_cursos, listar_alumn
 
 data = None
 
-
 if __name__ == "__main__":
     while True:
         print(f"#################################################################\n"
@@ -27,13 +26,51 @@ if __name__ == "__main__":
                 print(data)
             case 3:
                 if data is not None:
-                    cursos = listar_cursos(data)
-                    for i in cursos:
-                        print(f"{i['nombre']} - {i['estado']}")
+                    while True:
+                        cursos = listar_cursos(data)
+                        list_alumnos = []
+                        action = input("Ingrese la acción a realizar (listar, actualizar, detalle, terminar):")
+                        if action == "listar":
+                            for i in cursos:
+                                print(f"{i['nombre']} - {i['estado']}")
+                        if action == "detalle":
+                            curs = input("Ingrese el nombre del curso a detaller: ")
+                            for i in cursos:
+                                if i['nombre'] == curs:
+                                    print(f"{i['nombre']}({i['codigo']}) - {i['estado']}:")
+                                    print(f"Alumnos:")
+                                    for alumno in i['alumnos']:
+                                        print(f"\t{alumno}")
+                                    print(f"Servidores:")
+                                    for servidor in i['servidores']:
+                                        print(f"\t{servidor['nombre']} - {servidor['servicios_permitidos']}")
+                        if action == "actualizar":
+                            dict_alumnos = {}
+                            num = 1
+
+                            print(f"Ha escogido actualizar, ingrese el alumno "
+                                  f"(en caso ya exista lo eliminará y en caso no, lo creará)")
+                            for i in cursos:
+                                dict_alumnos["curso"+str(num)] = i["alumnos"]
+                                num = num + 1
+
+                            print(dict_alumnos)
+
+                            codigo = input("Codigo: ")
+
+                            if codigo in list_alumnos:
+                                print("existe")
+                            else:
+                                print("no existe")
+
+                        if action == "terminar":
+                            break
+
                 else:
                     print("Importe la data primero\n")
             case 4:
                 if data is not None:
+
                     cursos = listar_alumnos(data)
                     for i in cursos:
                         print(f"{i['nombre']}")
