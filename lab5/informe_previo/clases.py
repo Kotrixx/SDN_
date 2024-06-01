@@ -1,6 +1,10 @@
+import yaml
+
+
 class Alumno:
-    def __init__(self, nombre, direccion_mac):
+    def __init__(self, nombre, codigo, direccion_mac):
         self.nombre = nombre
+        self.codigo = codigo
         self.direccion_mac = direccion_mac
 
     def __str__(self):
@@ -52,6 +56,23 @@ class Servicio:
     def __str__(self):
         return f"Nombre: {self.nombre}, Protocolo: {self.protocolo}, Puerto: {self.puerto}"
 
+
+def alumno_representer(dumper, data):
+    return dumper.represent_dict({
+        'nombre': data.nombre,
+        'codigo': data.codigo,
+        'mac': data.direccion_mac
+    })
+
+
+# Función para construir un objeto Alumno desde un diccionario
+def alumno_constructor(loader, node):
+    values = loader.construct_mapping(node)
+    return Alumno(**values)
+
+
+yaml.add_representer(Alumno, alumno_representer)
+yaml.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, alumno_constructor)
 
 if __name__ == "__main__":
     servicio1 = Servicio("Web1", "HTTP", "80")

@@ -1,5 +1,7 @@
 import yaml
 
+from lab5.informe_previo.clases import Alumno
+
 
 def leer_yaml(filename):
     with open(filename, "r") as archivo:
@@ -9,13 +11,23 @@ def leer_yaml(filename):
 
 
 def agregar_info(filename, key, input_data):
-
     data = leer_yaml(filename)
+
+    if key not in data:
+        data[key] = []
+
     list_data = data[key]
-    list_data.append(input_data)
-    d = {'A': 'a', 'B': {'C': 'c', 'D': 'd', 'E': 'e'}}
+
+    if isinstance(input_data, Alumno):
+        list_data.append(input_data)
+    else:
+        raise ValueError("input_data debe ser una instancia de la clase Alumno")
+
+    data[key] = list_data
+
     with open(filename, 'w') as yaml_file:
-        yaml.dump(d, yaml_file, default_flow_style=False)
+        yaml.dump(data, yaml_file, default_flow_style=False)
+    return data
 
 
 def listar_cursos(data):
@@ -37,6 +49,22 @@ def listar_servidores(data):
     for d in data.get('servidores', []):
         list.append(d)
     return list
+
+
+def alumno_representer(dumper, data):
+    return dumper.represent_dict({
+        'nombre': data.nombre,
+        'codigo': data.codigo,
+        'direccion_mac': data.direccion_mac
+    })
+
+
+# Función para construir un objeto Alumno desde un diccionario
+def alumno_constructor(loader, node):
+    values = loader.construct_mapping(node)
+    return Alumno(**values)
+
+
 
 
 if __name__ == "__main__":
