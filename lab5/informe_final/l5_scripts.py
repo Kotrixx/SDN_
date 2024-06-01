@@ -35,7 +35,7 @@ if __name__ == "__main__":
                     """cursos = listar_alumnos(data)
                     for i in cursos:
                         print(f"{i['nombre']}")"""
-                    alumno_crud(data)
+                    data = alumno_crud(data)
 
                 else:
                     print("Importe la data primero\n")

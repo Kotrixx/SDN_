@@ -51,7 +51,10 @@ def alumno_crud(data):
         action = input("Ingrese la acción a realizar (listar, agregar, terminar):")
         if action == "listar":
             for i in alumnos:
-                print(f"{i['nombre']} - {i['codigo']} - {i['mac']}")
+                if isinstance(i, Alumno):
+                    print(f"{i.nombre} - {i.codigo} - {i.direccion_mac}")
+                else:
+                    print(f"{i['nombre']} - {i['codigo']} - {i['mac']}")
         if action == "agregar":
             print(f"Ha escogido agregar, ingrese los datos del alumno (nombre, codigo, mac)")
 
