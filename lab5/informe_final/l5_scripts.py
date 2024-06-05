@@ -1,4 +1,4 @@
-from lab5.informe_final.utils import cursos_crud, alumno_crud
+from lab5.informe_final.utils import cursos_crud, alumno_crud, conexion_crud, servidor_crud
 from lab5.informe_previo.clases import Alumno
 from lab5.informe_previo.leer_yaml import leer_yaml, listar_cursos, listar_alumnos, listar_servidores
 
@@ -43,14 +43,15 @@ if __name__ == "__main__":
             case "5":
                 print("Servidores:")
                 if data is not None:
-                    cursos = listar_servidores(data)
-                    for i in cursos:
-                        ip = i['ip']
-                        print(f"\t{i['nombre']}")
-                        print(f"\t{ip}")
-                        print(f"\t{i['servicios']}")
-                        if ip == "10.0.0.3":
-                            print("La IP corresponde a h3")
+                    data = servidor_crud(data)
+
+
+                else:
+                    print("Importe la data primero\n")
+                    listar_servidores(data)
+            case "7":
+                if data is not None:
+                    data = conexion_crud(data)
                 else:
                     print("Importe la data primero\n")
 
